@@ -1,0 +1,90 @@
+@startuml
+class Player{
+..
+string: name
+list: items
+room: location
+boolean: gameOver
+int: health
+boolean: hasScope
+int: numOfItems
+..
++ addPlayerItem(item)
++ viewHealth()
++ numberOfItems()
+}
+
+class GameItem{
+string: name
+string: description
+boolean: is_key
+boolean: is_scope
+boolean: is_trap
+..
++ trapActivate(Player)
+}
+
+class Room{
+string: name
+string: description
+item: Items
+boolean: had_hidden_item
+string: hidden_item
+int: number_of_item
+item: key_item
+..
++ addRoomItems(GameItem)
++ removeItem(choice)
++ correctKey(choice)
+}
+
+class House{
+room: rooms
+int: number_of_rooms
+..
++ addRoom(Room)
+}
+
+class game{
+Handles the main choices for the game,
+quit,room choice and picking up item
+}
+
+class itemPrint{
+Prints out the items in a particular
+room.
+}
+
+class roomCheck{
+Verify the room does not need a key_item
+to access.
+}
+
+class open_door{
+Print the items in the rooms on Screen.
+}
+
+open_door <-- itemPrint
+
+class roomChoice{
+Lets you choose which room to go to
+from list of all room and display
+them.
+}
+
+class enterRoom{
+Player enter the room and display
+all the item in the room
+}
+
+class chooseRoom {
+Input choice option that lets the
+player choose the room from room
+list.
+}
+
+class systemPrint{
+Prints a sentence with a delay to
+mimic class rpg style.
+}
+@enduml
