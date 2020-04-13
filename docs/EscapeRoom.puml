@@ -1,5 +1,5 @@
 @startuml
-class Player{
+class Object.Player{
 ..
 string: name
 list: items
@@ -9,12 +9,13 @@ int: health
 boolean: hasScope
 int: numOfItems
 ..
+--
 + addPlayerItem(item)
 + viewHealth()
 + numberOfItems()
 }
 
-class GameItem{
+class Object.GameItem{
 string: name
 string: description
 boolean: is_key
@@ -24,7 +25,7 @@ boolean: is_trap
 + trapActivate(Player)
 }
 
-class Room{
+class Object.Room{
 string: name
 string: description
 item: Items
@@ -38,7 +39,7 @@ item: key_item
 + correctKey(choice)
 }
 
-class House{
+class Object.House{
 room: rooms
 int: number_of_rooms
 ..
@@ -47,44 +48,113 @@ int: number_of_rooms
 
 class game{
 Handles the main choices for the game,
-quit,room choice and picking up item
++ sys.exit()
++ roomChoice()
++ pickupItem()
 }
+
+roomChoice <-- game
+pickupItem <-- game
+sys.exit <-- game
+
+class sys.exit{
+Exit program
+}
+
 
 class itemPrint{
 Prints out the items in a particular
 room.
++ systemPrint()
++ Also display the options for roomChoice
+and sys.exit
 }
+
+itemPrint <-- systemPrint
 
 class roomCheck{
 Verify the room does not need a key_item
 to access.
++ enterRoom()
 }
+
+enterRoom <-- roomCheck
 
 class open_door{
 Print the items in the rooms on Screen.
++ itemPrint()
 }
 
-open_door <-- itemPrint
+itemPrint <-- open_door
 
 class roomChoice{
 Lets you choose which room to go to
 from list of all room and display
 them.
++ itemPrint()
++ chooseRoom()
 }
+
+itemPrint <-- roomChoice
+chooseRoom <-- roomChoice
 
 class enterRoom{
 Player enter the room and display
 all the item in the room
++ systemPrint()
++ itemPrint()
++ game()
 }
+
+systemPrint <-- enterRoom
+itemPrint <-- enterRoom
+game <-- enterRoom
 
 class chooseRoom {
 Input choice option that lets the
 player choose the room from room
 list.
++ Sets the room location into the
+player object
++ sys.exit()
++ enterRoom()
 }
+
+sys.exit <-- chooseRoom
+enterRoom <-- chooseRoom
 
 class systemPrint{
 Prints a sentence with a delay to
 mimic class rpg style.
 }
+
+class titleScreen{
+Prints the initial title screen of
+the game and lets the player choose
+to start the game
++ setupGame()
++ sys.exit()
+}
+
+setupGame <-- titleScreen
+sys.exit <-- titleScreen
+
+class setupGame{
+The start of the game. Display
+welcome message and start game
++ enterRoom()
+}
+
+enterRoom <-- setupGame
+
+class pickupItem{
+player pick up an item. and
+display message that it has been
+picked up.
++ systemPrint()
++ game()
+}
+
+systemPrint <-- pickupItem
+game <-- pickupItem
 @enduml

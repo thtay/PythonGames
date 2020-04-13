@@ -1,0 +1,69 @@
+@startuml
+[*] --> GameMenu: Start Program
+state GameMenu{
+GameMenu: Menu of the game. Let's the player
+GameMenu: choose to start or quit the game
+GameMenu:
+GameMenu: * start()
+GameMenu: * quit()
+}
+GameMenu --> PlayerInRoom: if player choose "start()"
+GameMenu --> [*]: if player choose to "quit()"
+
+state PlayerInRoom{
+PlayerInRoom: Player starts out in the room.
+PlayerInRoom: Can see different areas you
+PlayerInRoom: can go to and search for items.
+PlayerInRoom:
+PlayerInRoom: * GoToItem()
+PlayerInRoom: * quit()
+}
+PlayerInRoom --> Player_GoToObject: if player choose an object
+PlayerInRoom --> [*]: if Player quit the game.
+
+state Player_GoToObject{
+Player_GoToObject: Player goes over to the object.
+Player_GoToObject: Let's say is a closet. A description of the
+Player_GoToObject: closet is shown to the player. There will also
+Player_GoToObject: be an option to examine the closet or open/examine.
+Player_GoToObject:
+Player_GoToObject: * examine()
+Player_GoToObject: * open()
+Player_GoToObject: * back_out()
+}
+Player_GoToObject --> Player_Examine: If player choose to examine object
+Player_GoToObject --> Player_Open: If player choose to open the object
+Player_GoToObject --> PlayerInRoom: If player chooses to back out
+
+state Player_Examine{
+Player_Examine: Player looks at the object, closet, without
+Player_Examine: opening it. The game will display a description
+Player_Examine: of its external features.
+Player_Examine:
+Player_Examine: * open()
+Player_Examine: * back_out()
+}
+Player_Examine --> Player_Open: If player choose to open the object
+Player_Examine --> PlayerInRoom: If player chooses to back out
+
+
+state Player_Open{
+Player_Open: Player will open the object, closet. The game
+Player_Open: will display all the items in the closet.
+Player_Open: Then the player can choose to pick up any of the
+Player_Open: items or back out.
+Player_Open:
+Player_Open: * pickupItem()
+Player_Open: * back_out()
+}
+Player_Open --> Player_PickUpItem: If player chooses an item to pick up.
+Player_Open --> PlayerInRoom: If player chooses to back out.
+
+state Player_PickUpItem{
+Player_PickUpItem: Put item picked up in players inventory.
+Player_PickUpItem: after picking up item, will remove item from object list
+Player_PickUpItem: and show the remaining items.
+}
+Player_PickUpItem --> Player_Open: Just show the rest of items
+
+@enduml
