@@ -18,32 +18,31 @@ int: numOfItems
 class Object.GameItem{
 string: name
 string: description
-boolean: is_key
-boolean: is_scope
-boolean: is_trap
 ..
 + trapActivate(Player)
 }
 
-class Object.Room{
+class Object.GameItem.Key{
 string: name
-string: description
-item: Items
-boolean: had_hidden_item
-string: hidden_item
-int: number_of_item
-item: key_item
-..
-+ addRoomItems(GameItem)
-+ removeItem(choice)
-+ correctKey(choice)
+int: id
+int: object_id
 }
 
-class Object.House{
-room: rooms
-int: number_of_rooms
+class Object.RoomObject{
+string: name
+int : id
+GameItem: items
+
++ addItems()
++ removeItems()
++ openObject()
++ correctKey()
++ incorrectKeyError()
+}
+
+class Object.Room{
+RoomObject: objects
 ..
-+ addRoom(Room)
 }
 
 class game{

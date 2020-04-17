@@ -16,9 +16,11 @@ PlayerInRoom: Can see different areas you
 PlayerInRoom: can go to and search for items.
 PlayerInRoom:
 PlayerInRoom: * GoToItem()
+PlayerInRoom: * ExitRoom()
 PlayerInRoom: * quit()
 }
 PlayerInRoom --> Player_GoToObject: if player choose an object
+PlayerInRoom --> Player_OpenCheck: if player choose to exitRoom
 PlayerInRoom --> [*]: if Player quit the game.
 
 state Player_GoToObject{
@@ -32,7 +34,7 @@ Player_GoToObject: * open()
 Player_GoToObject: * back_out()
 }
 Player_GoToObject --> Player_Examine: If player choose to examine object
-Player_GoToObject --> Player_Open: If player choose to open the object
+Player_GoToObject --> Player_OpenCheck: If player choose to open the object
 Player_GoToObject --> PlayerInRoom: If player chooses to back out
 
 state Player_Examine{
@@ -44,8 +46,15 @@ Player_Examine: * open()
 Player_Examine: * back_out()
 }
 Player_Examine --> Player_Open: If player choose to open the object
-Player_Examine --> PlayerInRoom: If player chooses to back out
+Player_Examine --> Player_GoToObject: If player chooses to back out
 
+state Player_OpenCheck{
+Player_OpenCheck: Check if player can open the object.
+Player_OpenCheck: * open()
+}
+
+Player_OpenCheck --> Player_Open: If player has key for the object
+Player_OpenCheck --> Player_GoToObject: Send back to examine
 
 state Player_Open{
 Player_Open: Player will open the object, closet. The game
@@ -66,4 +75,9 @@ Player_PickUpItem: and show the remaining items.
 }
 Player_PickUpItem --> Player_Open: Just show the rest of items
 
+state Player_EscapedRoom{
+Player_EscapedRoom: Player Win!
+}
+
+Player_OpenCheck --> Player_EscapedRoom: If player open check passes
 @enduml
